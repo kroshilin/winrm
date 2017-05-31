@@ -9,7 +9,7 @@
 namespace SofarmLib\WinRm\Exceptions;
 
 
-class WinRmNotFound extends \Exception
+class PythonNotFoundException extends \Exception
 {
-    public $message = 'Python library winrm not found - see https://github.com/diyan/pywinrm';
+    public $message = 'Python not found on your system';
 }

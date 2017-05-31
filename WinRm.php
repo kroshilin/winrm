@@ -9,9 +9,15 @@
 namespace SofarmLib\WinRm;
 
 
+use SofarmLib\WinRm\Exceptions\PythonNotFoundException;
+use SofarmLib\WinRm\Exceptions\WinRmExecException;
+use SofarmLib\WinRm\Exceptions\WinRmResponseException;
+
 class WinRm
 {
     const PATH = "./bin/winrm-ps-exec.py";
+
+    const EXIT_CODE_COMMAND_NOT_FOUND = 127;
 
     private $ip;
     private $login;
@@ -26,17 +32,36 @@ class WinRm
         $this->execCommand = $this->composeExecString();
     }
 
-    public function executeCommand(string $psCommand): \stdClass
+    public function executeCommand(string $psCommand): string
     {
         $result = null;
         $output = [];
 
-        exec($this->composeExecString() . $psCommand, $output, $result);
+        $echo = exec($this->composeExecString() . $psCommand, $output, $result);
         if ($result != 0) {
-            // @todo analyze output and throw exception
+            switch ($result) {
+                case self::EXIT_CODE_COMMAND_NOT_FOUND:
+                    throw new PythonNotFoundException();
+                default:
+                    throw new WinRmExecException($echo, $result);
+            }
         } else {
-            return json_decode($output);
+            return $this->parseResponse($output);
         }
+    }
+
+    private function parseResponse(string $response)
+    {
+        $object = json_decode($response);
+        if (!$object) {
+            throw new WinRmResponseException(json_last_error());
+        }
+
+        if ($object->status_code != 0) {
+            throw new WinRmResponseException($object->std_err, $object->status_code);
+        }
+
+        return $object->std_out;
     }
 
     private function composeExecString()
