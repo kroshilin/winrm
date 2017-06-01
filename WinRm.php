@@ -46,7 +46,7 @@ class WinRm
                     throw new WinRmExecException($echo, $result);
             }
         } else {
-            return $this->parseResponse($output);
+            return $this->parseResponse($output[0]);
         }
     }
 
