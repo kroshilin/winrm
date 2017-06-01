@@ -1,7 +1,7 @@
 {
     "name": "sofarm/services.winrm-client",
     "description": "WinRM Client",
-    "version": "1.7",
+    "version": "2.0.0",
     "license": "MIT",
     "homepage": "https://sofarm.me",
     "authors": [
