@@ -15,7 +15,7 @@ use SofarmLib\WinRm\Exceptions\WinRmResponseException;
 
 class WinRm
 {
-    const PATH = __DIR__ . "/bin/winrm-ps-exec.py";
+    const PATH = __DIR__  . "/bin/winrm-ps-exec.py";
 
     const EXIT_CODE_COMMAND_NOT_FOUND = 127;
 
@@ -37,7 +37,7 @@ class WinRm
         $result = null;
         $output = [];
 
-        $echo = exec($this->composeExecString() . $psCommand, $output, $result);
+        $echo = exec($this->composeExecString() . escapeshellarg($psCommand), $output, $result);
         if ($result != 0) {
             switch ($result) {
                 case self::EXIT_CODE_COMMAND_NOT_FOUND:
@@ -46,7 +46,7 @@ class WinRm
                     throw new WinRmExecException($echo, $result);
             }
         } else {
-            return $this->parseResponse($output);
+            return $this->parseResponse($output[0]);
         }
     }
 
@@ -66,6 +66,6 @@ class WinRm
 
     private function composeExecString()
     {
-        return 'python ' . self::PATH . ' ' . $this->ip . ' ' . $this->login . ' ' . $this->password . ' ';
+        return 'python ' . self::PATH . ' ' . escapeshellarg($this->ip) . ' ' . escapeshellarg($this->login) . ' ' . escapeshellarg($this->password) . ' ';
     }
 }
