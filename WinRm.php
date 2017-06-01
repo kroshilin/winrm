@@ -15,7 +15,7 @@ use SofarmLib\WinRm\Exceptions\WinRmResponseException;
 
 class WinRm
 {
-    const PATH = "./bin/winrm-ps-exec.py";
+    const PATH = __DIR__ . "/bin/winrm-ps-exec.py";
 
     const EXIT_CODE_COMMAND_NOT_FOUND = 127;
 
