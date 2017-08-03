@@ -54,7 +54,7 @@ class WinRm
     {
         $object = json_decode($response);
         if (!$object) {
-            throw new WinRmResponseException(json_last_error());
+            throw new WinRmResponseException("Json decode error " . json_last_error() . ". Response was: " . $response);
         }
 
         if ($object->status_code != 0) {
