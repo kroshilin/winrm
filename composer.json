@@ -1,13 +1,13 @@
 {
-    "name": "sofarm/services.winrm-client",
+    "name": "winrm-client",
     "description": "WinRM Client",
     "version": "2.1.1",
     "license": "MIT",
     "homepage": "https://sofarm.me",
     "authors": [
         {
-            "name": "Vadim Pronin",
-            "email": "sofarm@mail.pronin.com"
+            "name": "Anton Kroshilin",
+            "email": "kroshilin.a@yandex.ru"
         }
     ],
     "bin": [
