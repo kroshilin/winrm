@@ -1,5 +1,5 @@
 {
-    "name": "winrm",
+    "name": "kroshilin/winrm",
     "description": "WinRM Client",
     "version": "2.1.1",
     "license": "MIT",
